@@ -12,7 +12,7 @@ routes
   .get('/', DocsController.docs)
   .post('/movies', multerConfig.single("file"), MoviesController.loadMoviesToBD)
   .put('/movies/:id', MoviesController.update)
-  .get('/producers/prize-range', ProducersController.getPrizeRange)
-  .delete('/movies', MoviesController.deleteAll);
+  .delete('/movies', MoviesController.deleteAll)
+  .get('/producers/prize-range', ProducersController.getPrizeRange);
 
 export { routes };
