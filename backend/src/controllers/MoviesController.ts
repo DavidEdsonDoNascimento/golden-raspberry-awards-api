@@ -53,8 +53,17 @@ export class MoviesController {
   }
 
   static async update(req: Request, res: Response) {
+    console.log('MoviesController.update');
+
     const { id } = req.params as { id: string };
     const { year, title, studios, producers, winner } = req.body as Partial<Movie>;
+
+    if (!year || !title || !studios || !producers || !winner) {
+      return res.status(400).json({
+        isUpdated: false,
+        error: 'Missing required fields: year, title, studios, producers, winner'
+      })
+    }
 
     await client.movies.findUniqueOrThrow({
       where: {
@@ -75,6 +84,16 @@ export class MoviesController {
 
     return res.status(200).json({
       isUpdated: true,
-    })
+    });
+  }
+  static async deleteAll(req: Request, res: Response) {
+    console.log('MoviesController.deleteAll');
+
+    await client.movies.deleteMany({});
+
+    return res.status(200).json({
+      deleted: true,
+      info: 'all records have been deleted, import a new file via the /movies route (POST)'
+    });
   }
 }
