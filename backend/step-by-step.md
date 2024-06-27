@@ -82,8 +82,3 @@ npx prisma studio
 
 ### export client to use db
 create the client in a directory as done in: src/database/client.ts
-
-### add csv dependency
-```js
- yarn add csv 
- ```

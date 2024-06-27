@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
 import { Readable } from 'stream';
-
-import readLine from 'readline';
 import { Movie } from 'src/@Types/Movie';
 import { client } from 'src/database/client';
+
 import * as fs from "fs";
-import * as path from "path";
-import { parse } from 'csv-parse';
-import csv from 'csv';
+import readLine from 'readline';
 
 
 export class MoviesController {
