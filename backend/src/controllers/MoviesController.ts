@@ -9,6 +9,17 @@ import readLine from 'readline';
 
 export class MoviesController {
 
+  static async getMovies(req: Request, res: Response) {
+
+    console.log('MoviesController.getMovies');
+
+    const movies = await client.movies.findMany();
+
+    return res.status(200).json({
+      ok: true,
+      movies
+    });
+  }
   static async loadMoviesToBD(req: Request, res: Response) {
 
     console.log('MoviesController.loadMoviesToBD');
@@ -58,7 +69,7 @@ export class MoviesController {
     const { id } = req.params as { id: string };
     const { year, title, studios, producers, winner } = req.body as Partial<Movie>;
 
-    if (!year || !title || !studios || !producers || !winner) {
+    if (!year || !title || !studios || !producers) {
       return res.status(400).json({
         isUpdated: false,
         error: 'Missing required fields: year, title, studios, producers, winner'
