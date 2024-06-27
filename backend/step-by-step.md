@@ -1,4 +1,4 @@
-# NodeJS + Typescript + Prisma
+# NodeJS + Typescript + Prisma + SQLite
 
 ## Step By Step of project
 ### init package.json with:
@@ -48,4 +48,42 @@ use the format created in src/routes to create endpoints and the standard use of
 ### install prisma
 ```js
 yarn add prisma -D
+yarn add @prisma/client
 ```
+
+### library responsible for reading files:
+link: https://www.npmjs.com/package/multer
+```js
+yarn add multer
+yarn add @types/multer
+```
+
+instantiated in routes as middleware
+
+### connection between prism and SQLite
+```js
+npx prisma init --datasource-provider sqlite
+```
+
+https://www.prisma.io/docs/getting-started/quickstart
+
+created model Movies in schema.prisma
+
+### running migrate dev on prisma
+```js
+yarn prisma migrate dev
+```
+created to migrate create_movies in prisma/migrations
+
+### for viewing data in the database via prisma
+```js
+npx prisma studio
+```
+
+### export client to use db
+create the client in a directory as done in: src/database/client.ts
+
+### add csv dependency
+```js
+ yarn add csv 
+ ```
