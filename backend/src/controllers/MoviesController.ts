@@ -20,6 +20,24 @@ export class MoviesController {
       movies
     });
   }
+
+  static async getWinners(req: Request, res: Response) {
+
+    console.log('MoviesController.getWinners');
+
+    const movies = await client.movies.findMany({
+      where: { winner: "yes" },
+      orderBy: {
+        year: 'desc'
+      }
+    });
+
+    return res.status(200).json({
+      ok: true,
+      movies
+    });
+  }
+
   static async loadMoviesToBD(req: Request, res: Response) {
 
     console.log('MoviesController.loadMoviesToBD');
@@ -44,11 +62,42 @@ export class MoviesController {
         continue;
       }
 
+      // there may be more producers in the same field
+      if (!movieLineSplit[3].includes(' and ')) {
+        const movie: Movie = {
+          year: parseInt(movieLineSplit[0]),
+          title: movieLineSplit[1] || '',
+          studios: movieLineSplit[2] || '',
+          producers: movieLineSplit[3] || '',
+          winner: movieLineSplit[4] || '',
+        };
+        await client.movies.create({
+          data: movie
+        });
+        continue;
+      }
+
+      const firstProducers = movieLineSplit[3].split(' and ')[0].split(',');
+      const lastProducer = movieLineSplit[3].split(' and ')[1];
+
+      for (const producer of firstProducers) {
+        const movie: Movie = {
+          year: parseInt(movieLineSplit[0]),
+          title: movieLineSplit[1] || '',
+          studios: movieLineSplit[2] || '',
+          producers: producer.trimStart(),
+          winner: movieLineSplit[4] || '',
+        };
+        await client.movies.create({
+          data: movie
+        });
+      }
+
       const movie: Movie = {
         year: parseInt(movieLineSplit[0]),
         title: movieLineSplit[1] || '',
         studios: movieLineSplit[2] || '',
-        producers: movieLineSplit[3] || '',
+        producers: lastProducer,
         winner: movieLineSplit[4] || '',
       };
 

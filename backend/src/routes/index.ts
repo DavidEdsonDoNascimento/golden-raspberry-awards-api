@@ -11,6 +11,7 @@ const multerConfig = multer();
 routes
   .get('/', DocsController.docs)
   .get('/movies', MoviesController.getMovies)
+  .get('/movies/winners', MoviesController.getWinners)
   .post('/movies', multerConfig.single("file"), MoviesController.loadMoviesToBD)
   .put('/movies/:id', MoviesController.update)
   .delete('/movies', MoviesController.deleteAll)
