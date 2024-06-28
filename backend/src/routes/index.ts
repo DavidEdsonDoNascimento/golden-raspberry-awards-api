@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { DocsController } from '@controllers/DocsController';
+import { DocsController } from '../controllers/DocsController';
 import { MoviesController } from '@controllers/MoviesController';
 
 import multer from "multer";

@@ -35,6 +35,12 @@
       ],
       "@services/*": [
         "./src/services/*"
+      ],
+      "@database/*": [
+        "./src/database/*"
+      ],
+      "@@Types/*": [
+        "./src/@Types/*"
       ]
     }
   }

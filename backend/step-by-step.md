@@ -82,3 +82,9 @@ npx prisma studio
 
 ### export client to use db
 create the client in a directory as done in: src/database/client.ts
+
+
+### dependencies for tests
+```js
+yarn add jest @types/jest ts-jest supertest -D
+```

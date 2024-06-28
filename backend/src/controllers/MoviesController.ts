@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
 import { Readable } from 'stream';
-import { Movie } from 'src/@Types/Movie';
-import { client } from 'src/database/client';
-
-import * as fs from "fs";
+import { Movie } from '@@Types/Movie';
+import { client } from '@database/client';
 import readLine from 'readline';
-
 
 export class MoviesController {
 

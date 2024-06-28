@@ -1,13 +1,20 @@
 import { Request, Response } from 'express';
-import { Movie } from 'src/@Types/Movie';
-import { ProducerViewModel, ViewModel } from 'src/@Types/Producer';
-import { client } from 'src/database/client';
+import { Movie } from '@@Types/Movie';
+import { ProducerViewModel, ViewModel } from '@@Types/Producer';
+import { client } from '@database/client';
 
 export class ProducersController {
 
   static async getPrizeRange(req: Request, res: Response) {
 
     console.log('ProducersController.getPrizeRange');
+
+    if (!(await client.movies.findMany()).length) {
+      return res.status(200).json({
+        ok: false,
+        error: 'No movies found in the database. Load data mass via route /movies'
+      });
+    }
 
     const featuredProducers = await client.movies.groupBy({
       by: ['producers'],
