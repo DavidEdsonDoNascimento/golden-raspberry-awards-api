@@ -43,4 +43,4 @@ yarn prisma studio
 * /movies/:id → Changes a movie's data using its id (PUT)
 * /movies → Deletes all movies / deletes mass of data from database (DELETE)
 * /producers/prize-range → Gets the set containing the producer with the greatest interval between two consecutive awards, and which
-got two awards faster, following the format specification defined in the ./documents/Backend.pdf Specification (GET) file
+got two awards faster, following the format specification defined in the ./documents/Especificação Backend.pdf (GET) file
