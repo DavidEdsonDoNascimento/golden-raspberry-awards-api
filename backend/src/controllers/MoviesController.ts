@@ -143,6 +143,7 @@ export class MoviesController {
       isUpdated: true,
     });
   }
+
   static async deleteAll(req: Request, res: Response) {
     console.log('MoviesController.deleteAll');
 
