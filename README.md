@@ -12,6 +12,11 @@ https://rivaildojunior.medium.com/modelo-de-maturidade-de-richardson-para-apis-r
 
 ## step by step to run the project on your machine:
 
+### To run the project, first go to the directory: 
+./backend
+
+#### and perform the following steps: ↓
+
 #### Install dependencies
 ```js
 yarn
