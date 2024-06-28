@@ -22,9 +22,17 @@ yarn
 yarn prisma migrate dev
 ```
 
+#### run project
+```js
+yarn dev
+```
+#### import mass of data into the database
+Create database using the /movies route
+(POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
+
 ### Routes created:
 * '/' Get documentation (GET)
-* '/movies' Sends mass of data to the database (POST with file: search in collections containing the name Get Prize Range)
+* '/movies' Sends mass of data to the database (POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
 * '/movies' Gets all movies (GET)
 * '/movies/winners' Gets the winning films (GET)
 * '/movies/:id' Changes a movie's data using its id (PUT)
