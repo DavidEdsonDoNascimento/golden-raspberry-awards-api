@@ -30,12 +30,17 @@ yarn dev
 Create database using the /movies route
 (POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
 
+#### to view database data through the prisma
+```js
+yarn prisma studio
+```
+
 ### Routes created:
-* '/' Get documentation (GET)
-* '/movies' Sends mass of data to the database (POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
-* '/movies' Gets all movies (GET)
-* '/movies/winners' Gets the winning films (GET)
-* '/movies/:id' Changes a movie's data using its id (PUT)
-* '/movies' Deletes all movies / deletes mass of data from database (DELETE)
-* '/producers/prize-range' Gets the set containing the producer with the greatest interval between two consecutive awards, and which
+* / → Get documentation (GET)
+* /movies → Sends mass of data to the database (POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
+* /movies → Gets all movies (GET)
+* /movies/winners → Gets the winning films (GET)
+* /movies/:id → Changes a movie's data using its id (PUT)
+* /movies → Deletes all movies / deletes mass of data from database (DELETE)
+* /producers/prize-range → Gets the set containing the producer with the greatest interval between two consecutive awards, and which
 got two awards faster, following the format specification defined in the ./documents/Backend.pdf Specification (GET) file
