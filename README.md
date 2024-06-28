@@ -40,6 +40,11 @@ Create database using the /movies route
 yarn prisma studio
 ```
 
+#### run tests
+```js
+yarn tests
+```
+
 ### Routes created:
 * / → Get documentation (GET)
 * /movies → Sends mass of data to the database (POST with file: search in collections [ ./collection-insomnia-requests-and-responses.json ] containing the name Get Prize Range)
