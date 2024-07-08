@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from 'jest';
+import type { Config } from "jest";
 
 const config: Config = {
   // All imported modules in your tests should be mocked automatically
@@ -91,27 +91,7 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "@controllers/(.*)": [
-      "<rootDir>/src/controllers/$1"
-    ],
-    "@models/(.*)": [
-      "<rootDir>/src/models/$1"
-    ],
-    "@views/(.*)": [
-      "<rootDir>/src/views/$1"
-    ],
-    "@configs/(.*)": [
-      "<rootDir>/src/configs/$1"
-    ],
-    "@services/(.*)": [
-      "<rootDir>/src/services/$1"
-    ],
-    "@database/(.*)": [
-      "<rootDir>/src/database/$1"
-    ],
-    "@@Types/(.*)": [
-      "<rootDir>/src/@Types/$1"
-    ]
+    "@/(.*)": ["<rootDir>/src/$1"],
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -177,9 +157,7 @@ const config: Config = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    "**/**/*.spec.ts"
-  ],
+  testMatch: ["**/**/*.spec.ts"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [

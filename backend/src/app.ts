@@ -1,10 +1,10 @@
-import express from 'express';
-import { routes } from './routes';
-import cors from 'cors';
+import express from "express";
+import { routes } from "./http/routes";
+import cors from "cors";
 
 const app = express();
 
 app.use(cors());
-app.use(express.json(), routes)
+app.use(express.json(), routes);
 
 export { app };
