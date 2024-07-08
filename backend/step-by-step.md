@@ -81,7 +81,7 @@ npx prisma studio
 ```
 
 ### export client to use db
-create the client in a directory as done in: src/database/client.ts
+create the client in a directory as done in: src/lib/prisma.ts
 
 
 ### dependencies for tests
