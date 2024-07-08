@@ -1,15 +1,14 @@
+import { PrismaMoviesRepository } from "@/repositories/prisma/prisma-movies-repository";
+import { IMovie, IMoviesRepository } from "@/interfaces/movies";
+import { MoviesUseCase } from "@/use-cases/movies";
 import { Request, Response } from "express";
-import { Movie } from "@/@Types/Movie";
-import { prisma } from "@/lib/prisma";
-import { Readable } from "stream";
-
-import readLine from "readline";
 
 export class MoviesController {
   static async getMovies(req: Request, res: Response) {
     console.log("MoviesController.getMovies");
 
-    const movies = await prisma.movies.findMany();
+    const moviesRepository: IMoviesRepository = new PrismaMoviesRepository();
+    const movies = await moviesRepository.getMovies();
 
     return res.status(200).json({
       ok: true,
@@ -20,12 +19,8 @@ export class MoviesController {
   static async getWinners(req: Request, res: Response) {
     console.log("MoviesController.getWinners");
 
-    const movies = await prisma.movies.findMany({
-      where: { winner: "yes" },
-      orderBy: {
-        year: "desc",
-      },
-    });
+    const moviesRepository: IMoviesRepository = new PrismaMoviesRepository();
+    const movies = await moviesRepository.getWinningMovies();
 
     return res.status(200).json({
       ok: true,
@@ -39,66 +34,10 @@ export class MoviesController {
     const { file } = req;
     const { buffer } = file;
 
-    const readableFile = new Readable();
+    const moviesRepository: IMoviesRepository = new PrismaMoviesRepository();
+    const moviesUseCase = new MoviesUseCase(moviesRepository);
 
-    readableFile.push(buffer);
-    readableFile.push(null);
-    readableFile.setEncoding("utf8");
-
-    const moviesLine = readLine.createInterface({
-      input: readableFile,
-    });
-
-    for await (let line of moviesLine) {
-      const movieLineSplit = line.split(";");
-
-      if (isNaN(parseInt(movieLineSplit[0]))) {
-        continue;
-      }
-
-      // there may be more producers in the same field
-      if (!movieLineSplit[3].includes(" and ")) {
-        const movie: Movie = {
-          year: parseInt(movieLineSplit[0]),
-          title: movieLineSplit[1] || "",
-          studios: movieLineSplit[2] || "",
-          producers: movieLineSplit[3] || "",
-          winner: movieLineSplit[4] || "",
-        };
-        await prisma.movies.create({
-          data: movie,
-        });
-        continue;
-      }
-
-      const firstProducers = movieLineSplit[3].split(" and ")[0].split(",");
-      const lastProducer = movieLineSplit[3].split(" and ")[1];
-
-      for (const producer of firstProducers) {
-        const movie: Movie = {
-          year: parseInt(movieLineSplit[0]),
-          title: movieLineSplit[1] || "",
-          studios: movieLineSplit[2] || "",
-          producers: producer.trimStart(),
-          winner: movieLineSplit[4] || "",
-        };
-        await prisma.movies.create({
-          data: movie,
-        });
-      }
-
-      const movie: Movie = {
-        year: parseInt(movieLineSplit[0]),
-        title: movieLineSplit[1] || "",
-        studios: movieLineSplit[2] || "",
-        producers: lastProducer,
-        winner: movieLineSplit[4] || "",
-      };
-
-      await prisma.movies.create({
-        data: movie,
-      });
-    }
+    await moviesUseCase.loadMoviesByBuffer(buffer);
 
     return res.status(201).json({
       ok: true,
@@ -111,7 +50,7 @@ export class MoviesController {
 
     const { id } = req.params as { id: string };
     const { year, title, studios, producers, winner } =
-      req.body as Partial<Movie>;
+      req.body as Partial<IMovie>;
 
     if (!year || !title || !studios || !producers) {
       return res.status(400).json({
@@ -121,21 +60,14 @@ export class MoviesController {
       });
     }
 
-    await prisma.movies.findUniqueOrThrow({
-      where: {
-        id,
-      },
-    });
-
-    await prisma.movies.update({
-      where: { id },
-      data: {
-        year,
-        title,
-        studios,
-        producers,
-        winner,
-      },
+    const moviesRepository: IMoviesRepository = new PrismaMoviesRepository();
+    await moviesRepository.update({
+      id,
+      year,
+      title,
+      studios,
+      producers,
+      winner,
     });
 
     return res.status(200).json({
@@ -146,7 +78,8 @@ export class MoviesController {
   static async deleteAll(req: Request, res: Response) {
     console.log("MoviesController.deleteAll");
 
-    await prisma.movies.deleteMany({});
+    const moviesRepository: IMoviesRepository = new PrismaMoviesRepository();
+    await moviesRepository.deleteEverything();
 
     return res.status(200).json({
       deleted: true,

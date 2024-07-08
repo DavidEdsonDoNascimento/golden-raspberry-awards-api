@@ -1,7 +1,7 @@
-import { Router } from "express";
-import { DocsController } from "@/http/controllers/DocsController";
-import { MoviesController } from "@/http/controllers/MoviesController";
 import { ProducersController } from "@/http/controllers/ProducersController";
+import { MoviesController } from "@/http/controllers/MoviesController";
+import { DocsController } from "@/http/controllers/DocsController";
+import { Router } from "express";
 
 import multer from "multer";
 
