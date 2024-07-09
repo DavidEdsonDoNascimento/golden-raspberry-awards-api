@@ -43,7 +43,7 @@ describe("Prize Range Use Case", () => {
         winner: "yes",
       }),
       moviesRepository.create({
-        title: "teste 4",
+        title: "teste 5",
         year: 2018,
         producers: "Produtor C",
         studios: "Test 2",

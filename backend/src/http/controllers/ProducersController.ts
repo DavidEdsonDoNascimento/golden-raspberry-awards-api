@@ -15,7 +15,7 @@ export class ProducersController {
       viewModel = await prizeRangeUseCase.execute();
     } catch (err) {
       if (err instanceof NoDataInDatabaseError) {
-        return res.status(200).json({ message: "No data in database" });
+        return res.status(200).json({ message: err.message });
       }
       return res.status(500).json({ message: "Internal Server Error" });
     }
