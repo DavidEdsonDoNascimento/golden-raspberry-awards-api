@@ -10,7 +10,7 @@ class InMemoryMoviesRepository implements IMoviesRepository {
 
   async getWinningMoviesWithProducers(): Promise<IMovie[]> {
     const moviesWithProducers = this.movies.filter((movie) => {
-      return movie.winner === "yes" && movie.producers;
+      return movie.winner === "yes" && !!movie.producers;
     });
     return moviesWithProducers;
   }
@@ -42,10 +42,27 @@ class InMemoryMoviesRepository implements IMoviesRepository {
   async getBiggestWinners(): Promise<IProducersByGroup[]> {
     const winningMovies = this.movies.filter((movie) => movie.winner === "yes");
 
-    const producers = winningMovies.forEach((movie) => movie.producers);
-    console.log(`producers: `, producers);
+    const rawList = winningMovies.map((movie) => movie.producers);
+
+    const producersByGroup = this.getProducersByGroup(rawList);
+
+    return producersByGroup;
+  }
+
+  private async getProducersByGroup(
+    list: string[]
+  ): Promise<IProducersByGroup[]> {
     const producersByGroup: IProducersByGroup[] = [];
 
+    // Remove duplicates from the raw list
+    for (let i = 0; i < list.length; i++) {
+      if (list.indexOf(list[i]) === i) {
+        producersByGroup.push({
+          producers: list[i],
+        });
+      }
+    }
+    console.log(`producers: `, producersByGroup);
     return producersByGroup;
   }
 
