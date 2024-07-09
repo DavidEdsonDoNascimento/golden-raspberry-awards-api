@@ -6,30 +6,53 @@ import {
 } from "@/interfaces/movies";
 
 class InMemoryMoviesRepository implements IMoviesRepository {
-  getWinningMoviesWithProducers(): Promise<IMovie[]> {
-    throw new Error("Method not implemented.");
-  }
-  update(data: IMovieUpdate): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  getMovies(): Promise<IMovie[]> {
-    throw new Error("Method not implemented.");
-  }
-  getWinningMovies(): Promise<IMovie[]> {
-    throw new Error("Method not implemented.");
-  }
-  deleteEverything(): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  getBiggestWinners(): Promise<IProducersByGroup[]> {
-    throw new Error("Method not implemented.");
-  }
   private movies: IMovie[] = [];
+
+  async getWinningMoviesWithProducers(): Promise<IMovie[]> {
+    const moviesWithProducers = this.movies.filter((movie) => {
+      return movie.winner === "yes" && movie.producers;
+    });
+    return moviesWithProducers;
+  }
+
+  async update(data: IMovieUpdate): Promise<void> {
+    const newMovies: IMovie[] = [];
+    this.movies.forEach((movie) => {
+      if (movie.id === data.id) {
+        newMovies.push({ ...data });
+        return;
+      }
+      newMovies.push(movie);
+    });
+    this.movies = newMovies;
+  }
+
+  async getMovies(): Promise<IMovie[]> {
+    return this.movies;
+  }
+
+  async getWinningMovies(): Promise<IMovie[]> {
+    return this.movies.filter((movie) => movie.winner === "yes");
+  }
+
+  async deleteEverything(): Promise<void> {
+    this.movies = [];
+  }
+
+  async getBiggestWinners(): Promise<IProducersByGroup[]> {
+    const winningMovies = this.movies.filter((movie) => movie.winner === "yes");
+
+    const producers = winningMovies.forEach((movie) => movie.producers);
+    console.log(`producers: `, producers);
+    const producersByGroup: IProducersByGroup[] = [];
+
+    return producersByGroup;
+  }
 
   async create(data: IMovie): Promise<IMovie> {
     const movie: IMovie = {
       ...data,
-      id: "movie-1",
+      id: `movie-1-${data.year}`,
     };
 
     this.movies.push(movie);
